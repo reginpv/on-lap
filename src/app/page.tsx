@@ -18,10 +18,7 @@ export default async function Home() {
             )}
 
             <div>
-              <p>
-                This is a demo project built with Next.js 15, Neon PostgreSQL,
-                Prisma, and Tailwind CSS V4, deployed on Vercel.
-              </p>
+              <p>We will not use any public pages.</p>
             </div>
           </div>
         </div>

@@ -1,7 +1,16 @@
 import FormLogin from '@/components/forms/FormLogin'
 import Link from 'next/link'
+import { getServerSession } from 'next-auth'
+import { authOptions } from '@/lib/authOptions'
+import { redirect } from 'next/navigation'
 
-export default function Login() {
+export default async function Login() {
+  // Public only
+  const session = await getServerSession(authOptions)
+  if (session) {
+    redirect('/dashboard')
+  }
+
   return (
     <section className="h-dvh">
       <div className="h-full">
