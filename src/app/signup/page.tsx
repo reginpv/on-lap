@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/authOptions'
 import { redirect } from 'next/navigation'
+import Logo from '@/components/globals/Logo'
 
 export default async function Signup() {
   // Public only
@@ -16,6 +17,9 @@ export default async function Signup() {
         <div className="flex flex-col md:flex-row h-full">
           {/** Left side */}
           <div className="bg-primary flex-1 p-5 flex flex-col gap-5 items-center justify-center">
+            <div>
+              <Logo />
+            </div>
             <h1>Signup</h1>
 
             <div>

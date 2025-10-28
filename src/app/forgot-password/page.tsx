@@ -3,6 +3,7 @@ import FormForgotPassword from '@/components/forms/FormForgotPassword'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/authOptions'
 import { redirect } from 'next/navigation'
+import Logo from '@/components/globals/Logo'
 
 export default async function ForgotPassword() {
   // Public only
@@ -14,6 +15,9 @@ export default async function ForgotPassword() {
   return (
     <section className="min-h-dvh h-full flex items-center py-10 px-5">
       <main className="flex flex-col gap-5 items-center justify-center">
+        <div>
+          <Logo />
+        </div>
         <div className="flex justify-center">
           <h1 className="font-bold">Forgot your password?</h1>
         </div>
