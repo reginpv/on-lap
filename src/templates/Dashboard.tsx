@@ -13,7 +13,7 @@ export default async function TemplateDashboard({
     <ThemeProvider>
       <section className="flex h-dvh">
         <Aside />
-        <main className="dark:bg-gray-800 dark:text-white flex flex-col">
+        <main className="bg-primary flex flex-col">
           <HeaderDashboard />
           <section className="flex-1">{children}</section>
           <FooterDashboard />
