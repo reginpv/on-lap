@@ -4,6 +4,7 @@ import { useEffect, useState, useRef, useActionState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { resetPassword } from '@/lib/actions/util'
+import { useRouter } from 'next/navigation'
 
 export default function FormResetPassword({
   className,
@@ -16,6 +17,9 @@ export default function FormResetPassword({
   // Refs
   const formRef = useRef<HTMLFormElement>(null)
 
+  // Hooks
+  const { push: redirect } = useRouter()
+
   // State
   const [email, setEmail] = useState('')
   const [token, setToken] = useState('')
@@ -25,6 +29,17 @@ export default function FormResetPassword({
     message: null,
     errors: null,
   })
+
+  useEffect(() => {
+    console.log('state: ', state)
+    if (state.success) {
+      formRef.current?.reset()
+      // Use delay 1000 to show form message before redirect
+      setTimeout(() => {
+        redirect('/login')
+      }, 1000)
+    }
+  }, [state])
 
   useEffect(() => {
     const tokenParam = searchParams.get('token')
