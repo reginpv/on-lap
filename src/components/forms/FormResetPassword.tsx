@@ -31,7 +31,6 @@ export default function FormResetPassword({
   })
 
   useEffect(() => {
-    console.log('state: ', state)
     if (state.success) {
       formRef.current?.reset()
       // Use delay 1000 to show form message before redirect

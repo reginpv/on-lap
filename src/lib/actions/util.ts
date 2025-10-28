@@ -131,11 +131,6 @@ export async function resetPassword(_prevState: any, formData: FormData) {
   const password = formData.get('password')?.toString().trim()
   const confirmPassword = formData.get('confirmPassword')?.toString().trim()
 
-  console.log('token: ', token)
-  console.log('email: ', email)
-  console.log('password: ', password)
-  console.log('confirmPassword: ', confirmPassword)
-
   // Validate
   if (!token || !email || !password) {
     return {
@@ -159,8 +154,6 @@ export async function resetPassword(_prevState: any, formData: FormData) {
     const resetToken = await prisma[table].findUnique({
       where: { token },
     })
-
-    console.log('reset token: ', resetToken)
 
     if (!resetToken || resetToken.email !== email) {
       return {
