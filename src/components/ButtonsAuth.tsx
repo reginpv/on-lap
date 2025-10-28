@@ -2,6 +2,7 @@
 
 import { signIn, signOut } from 'next-auth/react'
 import { LogOut } from 'lucide-react'
+import { purgeCache } from '@/lib/actions/cache'
 
 export function ButtonSignIn({
   className,
@@ -20,7 +21,8 @@ export function ButtonSignIn({
 export function ButtonSignOut({ className }: { className?: string }) {
   return (
     <button
-      onClick={() => {
+      onClick={async () => {
+        await purgeCache()
         signOut()
       }}
       className={`hover:bg-gray-100 dark:hover:bg-gray-700 p-2 rounded animated w-full text-left ${className}`}

@@ -2,6 +2,8 @@ import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import FormResetPassword from '@/components/forms/FormResetPassword'
 import { getResetPasswordToken } from '@/lib/actions/resetPasswordToken'
+import { getServerSession } from 'next-auth'
+import { authOptions } from '@/lib/authOptions'
 
 export default async function ResetPassword({
   searchParams,
@@ -11,6 +13,12 @@ export default async function ResetPassword({
     email: string
   }>
 }) {
+  // Public only
+  const session = await getServerSession(authOptions)
+  if (session) {
+    redirect('/dashboard')
+  }
+
   // Check if token is valid
   const { token, email } = await searchParams
 
@@ -19,8 +27,8 @@ export default async function ResetPassword({
     redirect('/login')
   }
 
+  // Check if token is valid (available and not expired)
   const hasValidToken = await getResetPasswordToken(email, token)
-
   if (!hasValidToken.success) {
     redirect('/login')
   }

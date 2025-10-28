@@ -1,7 +1,16 @@
 import Link from 'next/link'
 import FormForgotPassword from '@/components/forms/FormForgotPassword'
+import { getServerSession } from 'next-auth'
+import { authOptions } from '@/lib/authOptions'
+import { redirect } from 'next/navigation'
 
-export default function ForgotPassword() {
+export default async function ForgotPassword() {
+  // Public only
+  const session = await getServerSession(authOptions)
+  if (session) {
+    redirect('/dashboard')
+  }
+
   return (
     <section className="min-h-dvh h-full flex items-center py-10 px-5">
       <main className="flex flex-col gap-5 items-center justify-center">

@@ -56,7 +56,7 @@ export default function FormProfile({
     }
 
     //
-    console.log('Updating session with new user data:', newUser)
+    // console.log('Updating session with new user data:', newUser)
     await update(newUser)
 
     //
@@ -132,7 +132,7 @@ export default function FormProfile({
     <form
       ref={formRef}
       action={handleSubmit}
-      className={`bg-white p-5 md:p-10 mx-auto flex justify-center dark:bg-gray-800 ${className}`}
+      className={`p-5 md:p-10 mx-auto flex justify-center ${className}`}
       noValidate
       data-loading={pending || isPending}
     >
@@ -223,6 +223,22 @@ export default function FormProfile({
               className={`!w-full ${state.errors?.name ? 'has-errors' : ''}`}
             />
           </div>
+          {/* Role */}
+          <div className="form-control opacity-30 cursor-not-allowed">
+            <label htmlFor="role" className="cursor-not-allowed">
+              Role
+            </label>
+            <input
+              name="role"
+              type="text"
+              defaultValue={me?.role}
+              className={`!w-full cursor-not-allowed ${
+                state.errors?.name ? 'has-errors' : ''
+              }`}
+              readOnly
+            />
+          </div>
+
           {state?.message && (
             <div
               className={`alert ${

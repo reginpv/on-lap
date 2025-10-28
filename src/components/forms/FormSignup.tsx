@@ -1,6 +1,6 @@
 'use client'
 
-import { useActionState, useEffect, useRef } from 'react'
+import { useActionState, useEffect, useRef, useState } from 'react'
 import { createUser } from '@/lib/actions/user'
 import { useRouter } from 'next/navigation'
 
@@ -13,11 +13,14 @@ export default function FormSignup({ className }: { className?: string }) {
 
   // States
   const [state, handleSubmit, pending] = useActionState(createUser, {})
+  const [selectedRole, setSelectedRole] = useState('STUDENT')
 
   useEffect(() => {
     if (state?.success && formRef.current) {
       formRef.current.reset()
+      // NOTE:
       // Use delay 1000 to show form message before redirect
+      //
       setTimeout(() => {
         redirect('/login')
       }, 1000)
@@ -37,6 +40,7 @@ export default function FormSignup({ className }: { className?: string }) {
           required
           type="text"
           name="name"
+          defaultValue={state?.input?.name}
           placeholder="John Thomas"
           className={`input w-full`}
         />
@@ -49,6 +53,7 @@ export default function FormSignup({ className }: { className?: string }) {
           required
           type="email"
           name="email"
+          defaultValue={state?.input?.email}
           placeholder="johnthomas@email.com"
           className={`input w-full`}
         />
@@ -69,6 +74,46 @@ export default function FormSignup({ className }: { className?: string }) {
           <p className="error">{state?.errors?.password}</p>
         )}
       </div>
+
+      {/** Group radio button */}
+      <div className="form-control flex gap-1">
+        {[
+          {
+            label: 'student',
+            value: 'STUDENT',
+            emoji: '🧑🏻',
+          },
+          {
+            label: 'teacher',
+            value: 'TEACHER',
+            emoji: '🧑‍🏫',
+          },
+        ].map((role) => (
+          <label
+            htmlFor={role.value}
+            key={role.value}
+            className={`animated !ml-0 !mb-0 flex-1 p-3 flex items-center gap-1 justify-center  cursor-pointer text-center capitalize ${
+              role.value === selectedRole
+                ? 'bg-green-200 text-green-500 font-bold opacity-100'
+                : 'bg-secondary opacity-50 grayscale-100 hover:grayscale-10'
+            }`}
+            onClick={() => setSelectedRole(role.value)}
+          >
+            <input
+              id={role.value}
+              type="radio"
+              name="role"
+              defaultValue={role.value}
+              className="hidden"
+              readOnly
+              checked={role.value === selectedRole}
+            />
+            <span>{role.emoji}</span>
+            <span>{role.label}</span>
+          </label>
+        ))}
+      </div>
+
       <div>
         {state?.message && (
           <div
