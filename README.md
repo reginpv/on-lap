@@ -1,6 +1,6 @@
-### NEXT CRUD BOILERPLATE
+### On-LAP
 
-This project is a boilerplate for building CRUD applications using Next.js 15.
+Online Learning Assessment Platform (ON-LAP)
 
 ## Prerequisites
 
@@ -15,6 +15,7 @@ Before you begin, make sure you have the following installed:
   ```
 
 - **Vercel CLI**
+
   ```bash
   npm install -g vercel
   ```
@@ -27,26 +28,31 @@ Before you begin, make sure you have the following installed:
 Follow these steps to set up the project:
 
 1. **Clone the repository**:
-  ```bash
-  git clone https://github.com/reginpv/next-crud-boilerplate.git .
-  ```
+
+```bash
+git clone https://github.com/reginpv/on-lap.git .
+```
 
 2. **Install dependencies**:
-  ```bash
-  npm install
-  ```
+
+```bash
+npm install
+```
 
 3. **Set up environment variables**:  
-  Run the following command to pull the environment variables managed by Vercel:  
-  ```bash
-  vercel env pull .env.local
-  ```  
-  This will create a `.env.local` file in the root directory with the required environment variables.
+   Run the following command to pull the environment variables managed by Vercel:
+
+```bash
+vercel env pull .env.local
+```
+
+This will create a `.env.local` file in the root directory with the required environment variables.
 
 4. **Run the development server**:
-  ```bash
-  npm run dev
-  ```
+
+```bash
+npm run dev
+```
 
 5. Open [http://localhost:3000](http://localhost:3000) in your browser to see the application.
 
@@ -60,6 +66,4 @@ prisma generate && next build
 
 This step is crucial to ensure that Prisma generates the necessary client files before building your Next.js application.
 
-
 ![Screenshot_5](https://github.com/user-attachments/assets/060032fb-05a8-4be4-a44e-b8d549ee78c5)
-

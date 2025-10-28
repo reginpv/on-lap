@@ -1,19 +1,11 @@
 'use server'
 
 import prisma from '@/lib/prisma'
-import { ResetPasswordToken } from '@prisma/client'
 
 const table = 'resetPasswordToken'
 
 // GET ONE
-// Because Session returns ID as string, we need to parse it to integer
-export async function getResetPasswordToken(
-  _prevState: any,
-  formData: FormData
-) {
-  const email = formData.get('email')?.toString().trim()
-  const token = formData.get('token')?.toString().trim()
-
+export async function getResetPasswordToken(email: string, token: string) {
   if (!email || !token) {
     return {
       success: false,
@@ -29,6 +21,14 @@ export async function getResetPasswordToken(
         token,
       },
     })
+
+    if (!data) {
+      return {
+        success: false,
+        payload: null,
+        message: 'Token not found.',
+      }
+    }
 
     if (data.expires < new Date()) {
       return {

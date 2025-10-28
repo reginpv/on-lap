@@ -2,29 +2,24 @@ import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import FormResetPassword from '@/components/forms/FormResetPassword'
 import { getResetPasswordToken } from '@/lib/actions/resetPasswordToken'
-import { get } from 'http'
 
 export default async function ResetPassword({
   searchParams,
 }: {
-  searchParams: {
+  searchParams: Promise<{
     token: string
     email: string
-  }
+  }>
 }) {
   // Check if token is valid
-  const token = searchParams.token
-  const email = searchParams.email
+  const { token, email } = await searchParams
 
   // Validate
   if (!token || !email) {
     redirect('/login')
   }
 
-  const formData = new FormData()
-  formData.append('token', token)
-  formData.append('email', email)
-  const hasValidToken = await getResetPasswordToken({}, formData)
+  const hasValidToken = await getResetPasswordToken(email, token)
 
   if (!hasValidToken.success) {
     redirect('/login')
