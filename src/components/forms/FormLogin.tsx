@@ -52,11 +52,9 @@ export default function FormLogin({ className }: { className?: string }) {
         redirect: false,
       })
 
-      // console.log('res: ', res)
-
       if (res?.ok === true) {
         setState({
-          message: 'Logged in successfully',
+          message: 'Logged in successfully!',
           success: true,
           errors: {
             email: '',
@@ -71,8 +69,9 @@ export default function FormLogin({ className }: { className?: string }) {
 
         //
       } else {
+        console.log('Failed to login: ', res)
         setState({
-          message: 'Failed to login',
+          message: 'Login failed.',
           success: false,
           errors: {
             email: '',
@@ -103,16 +102,6 @@ export default function FormLogin({ className }: { className?: string }) {
       noValidate
       className={`${className} flex flex-col gap-5`}
     >
-      {state?.message && (
-        <p
-          className={`alert ${
-            state.success ? `alert--success` : `alert--danger`
-          }`}
-        >
-          {state?.message}
-        </p>
-      )}
-
       <div className="form-control">
         <label>Email address</label>
         <input
@@ -140,6 +129,16 @@ export default function FormLogin({ className }: { className?: string }) {
           <p className="error">{state?.errors?.password}</p>
         )}
       </div>
+
+      {state?.message && (
+        <p
+          className={`alert ${
+            state.success ? `alert--success` : `alert--danger`
+          }`}
+        >
+          {state?.message}
+        </p>
+      )}
 
       <div>
         <button

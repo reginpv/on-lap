@@ -1,24 +1,20 @@
 // This is a workaround with hydration issue with Next.js server elements
 // different from client
 
-"use client"
+'use client'
 
-import { useEffect, useState, ReactNode } from "react"
+import { useEffect, useState, ReactNode } from 'react'
 
-export default function HydrationZustand({ 
-  children 
-}:{
+export default function HydrationZustand({
+  children,
+}: {
   children: ReactNode
 }) {
+  const [isHydrated, setIsHydrated] = useState(false)
 
-  const [ isHydrated, setIsHydrated ] = useState(false)
-
-  useEffect(()=>{
+  useEffect(() => {
     setIsHydrated(true)
-  },[])
+  }, [])
 
-  return <>
-    {isHydrated ? children : null}
-  </>
-
+  return <>{isHydrated ? children : null}</>
 }

@@ -14,7 +14,6 @@ export default function DrawerProfile() {
 
   // Hooks
   const { data: session } = useSession()
-  console.log('DrawerProfile - Session data:', session)
 
   // State
   const [isOpen, setIsOpen] = useState(false)

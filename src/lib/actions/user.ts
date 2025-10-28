@@ -56,9 +56,12 @@ export async function createUser(prevState: User, formData: User) {
   const name = formData.get('name')?.toString().trim()
   const email = formData.get('email')?.toString().trim()
   const password = formData.get('password')?.toString().trim()
+  const role = formData.get('role')?.toString().trim()
+
+  // Validate
 
   // Check for missing required fields
-  const requiredFields = ['name', 'email', 'password'] as const
+  const requiredFields = ['name', 'email', 'password', 'role'] as const
   type Field = (typeof requiredFields)[number]
   let errors: { [key in Field]?: string } = {}
   requiredFields.forEach((field) => {
@@ -75,6 +78,7 @@ export async function createUser(prevState: User, formData: User) {
       input: {
         name,
         email,
+        role,
       },
     }
   }
@@ -95,6 +99,7 @@ export async function createUser(prevState: User, formData: User) {
         input: {
           name,
           email,
+          role,
         },
       }
     }
@@ -104,6 +109,7 @@ export async function createUser(prevState: User, formData: User) {
       data: {
         name,
         email,
+        role,
         password: await hash(password, 12),
       },
     })
@@ -117,6 +123,7 @@ export async function createUser(prevState: User, formData: User) {
       payload: user,
     }
   } catch (error) {
+    console.log('User create error: ', error)
     return {
       success: false,
       payload: null,

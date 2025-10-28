@@ -19,8 +19,8 @@ export default async function ResetPassword({
     redirect('/login')
   }
 
+  // Check if token is valid (available and not expired)
   const hasValidToken = await getResetPasswordToken(email, token)
-
   if (!hasValidToken.success) {
     redirect('/login')
   }

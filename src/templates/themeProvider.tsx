@@ -1,17 +1,22 @@
 // components/ThemeProvider.tsx
-"use client"
+'use client'
 
-import { useEffect } from "react"
-import { useMode } from "@/store/useMode"
+import { useEffect } from 'react'
+import { useMode } from '@/store/useMode'
 
-export default function ThemeProvider({ children }: { children: React.ReactNode }){
-  const { mode } = useMode()
+export default function ThemeProvider({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  const mode = useMode((s) => s.mode)
 
   useEffect(() => {
-    if (mode === "dark") {
-      document.body.classList.add("dark")
+    console.log('mode', mode)
+    if (mode === 'dark') {
+      document.body.classList.add('dark')
     } else {
-      document.body.classList.remove("dark")
+      document.body.classList.remove('dark')
     }
   }, [mode])
 

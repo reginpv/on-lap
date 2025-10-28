@@ -18,7 +18,7 @@ export const useMode = create<Mode>()(
         set((state) => ({ mode: state.mode === 'light' ? 'dark' : 'light' })),
     }),
     {
-      name: `ncmode${process.env.NODE_ENV === 'development' ? '-dev' : ''}`,
+      name: `onlap-mode${process.env.NODE_ENV === 'development' ? '-dev' : ''}`,
     }
   )
 )
