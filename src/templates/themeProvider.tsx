@@ -12,7 +12,6 @@ export default function ThemeProvider({
   const mode = useMode((s) => s.mode)
 
   useEffect(() => {
-    console.log('mode', mode)
     if (mode === 'dark') {
       document.body.classList.add('dark')
     } else {
