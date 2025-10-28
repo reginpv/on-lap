@@ -4,6 +4,7 @@ import FormResetPassword from '@/components/forms/FormResetPassword'
 import { getResetPasswordToken } from '@/lib/actions/resetPasswordToken'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/authOptions'
+import Logo from '@/components/globals/Logo'
 
 export default async function ResetPassword({
   searchParams,
@@ -36,6 +37,9 @@ export default async function ResetPassword({
   return (
     <section className="min-h-dvh h-full flex items-center py-10 px-5">
       <main className="flex flex-col gap-5 items-center justify-center">
+        <div>
+          <Logo />
+        </div>
         <div className="flex justify-center">
           <h1 className="font-bold">Reset your password</h1>
         </div>
