@@ -16,7 +16,7 @@ export default function FormSecurity({ className }: { className?: string }) {
     <form
       ref={formRef}
       action={handleSubmit}
-      className={`bg-white p-5 md:p-10 mx-auto flex justify-center ${className}`}
+      className={`p-5 md:p-10 mx-auto flex justify-center ${className}`}
       noValidate
       data-loading={isPending}
     >

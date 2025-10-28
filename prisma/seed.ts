@@ -14,14 +14,14 @@ async function main() {
       name: 'Admin User',
       email: defaultEmail,
       password: passwordHash,
-      role: 'SUPERADMIN', // from your Role enum
+      role: 'SUPERADMIN',
       activatedAt: new Date(),
       createdAt: new Date(),
       updatedAt: new Date(),
     },
   })
 
-  console.log('✅ Seeded admin user:', admin.email)
+  console.log('✅ Seeded superadmin user:', admin.email)
 }
 
 main()
