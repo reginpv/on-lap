@@ -21,7 +21,11 @@ async function main() {
     },
   })
 
+<<<<<<< HEAD
   console.log('✅ Seeded superadmin user:', admin.email)
+=======
+  console.log('✅ Seeded admin user:', admin.email)
+>>>>>>> 878fad46d4dc5c1a370761482912bac1b6dea32b
 }
 
 main()
