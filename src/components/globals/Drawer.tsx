@@ -61,7 +61,7 @@ export default function Drawer() {
       {/** Body */}
       <div className="p-5">
         <div>
-          <ul>
+          <ul className="flex flex-col gap-5">
             {menuAside.map(
               (item: { label: string; href: string; icon: any }, i: number) => (
                 <li key={i}>
