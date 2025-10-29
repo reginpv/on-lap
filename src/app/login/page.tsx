@@ -13,7 +13,7 @@ export default async function Login() {
   }
 
   return (
-    <section className="min-h-dvh">
+    <section className="h-dvh">
       <div className="h-full">
         <div className="flex flex-col md:flex-row h-full">
           <div className="bg-primary flex-1 p-5 flex flex-col gap-5 items-center justify-center">

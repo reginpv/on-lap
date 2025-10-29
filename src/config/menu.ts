@@ -8,7 +8,7 @@ export const menuAside = [
   },
   {
     label: 'My Class',
-    href: '/class',
+    href: '/dashboard/class',
     icon: UsersRound,
   },
 ]
