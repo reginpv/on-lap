@@ -30,9 +30,9 @@ export default function Aside() {
                 <li key={i}>
                   <Link
                     href={item.href}
-                    className={`flex items-center justify-center gap-3 hover:bg-gray-200 dark:hover:bg-gray-700 animated py-2 rounded hover:px-3 ${
+                    className={`flex items-center justify-center gap-3 hover:bg-gray-200 dark:hover:bg-gray-700 animated py-2 rounded px-2 ${
                       pathname === item.href
-                        ? 'bg-gray-200 dark:bg-gray-700 px-3'
+                        ? 'bg-gray-200 dark:bg-gray-700'
                         : ''
                     }`}
                   >
