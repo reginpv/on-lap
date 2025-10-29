@@ -11,7 +11,7 @@ export default async function TemplateDashboard({
 }) {
   return (
     <ThemeProvider>
-      <section className="flex h-dvh">
+      <section className="flex min-h-dvh">
         <Aside />
         <main className="bg-primary flex flex-col">
           <HeaderDashboard />

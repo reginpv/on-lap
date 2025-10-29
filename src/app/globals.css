@@ -9,7 +9,7 @@
   --foreground: #171717;
   --primary: theme(colors.gray.100);
   --secondary: theme(colors.gray.200);
-  --border: theme(colors.gray.200);
+  --border: theme(colors.gray.300);
 }
 
 .dark {

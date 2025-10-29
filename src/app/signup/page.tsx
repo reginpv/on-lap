@@ -12,7 +12,7 @@ export default async function Signup() {
     redirect('/dashboard')
   }
   return (
-    <section className="h-dvh">
+    <section className="min-h-dvh">
       <div className="h-full">
         <div className="flex flex-col md:flex-row h-full">
           {/** Left side */}
