@@ -5,6 +5,7 @@ import { useDrawer } from '@/store/useDrawer'
 import Link from 'next/link'
 import Logo from '@/components/globals/Logo'
 import { X, LayoutDashboard } from 'lucide-react'
+import { menuAside } from '@/config/menu'
 
 export default function Drawer() {
   // Refs
@@ -61,13 +62,7 @@ export default function Drawer() {
       <div className="p-5">
         <div>
           <ul>
-            {[
-              {
-                label: 'Dashboard',
-                href: '/dashboard',
-                icon: LayoutDashboard,
-              },
-            ].map(
+            {menuAside.map(
               (item: { label: string; href: string; icon: any }, i: number) => (
                 <li key={i}>
                   <Link
