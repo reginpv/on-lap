@@ -42,7 +42,7 @@ export default function DrawerProfile() {
     <div className="relative" ref={drawerRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="button button--circle"
+        className="button button--circle hover:!bg-gray-300"
       >
         <User />
       </button>
