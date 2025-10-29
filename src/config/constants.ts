@@ -1,4 +1,5 @@
 // APP
+export const APP_ID = 'onlap'
 export const APP_NAME = 'On-lap'
 export const APP_BASE_URL =
   process.env.NODE_ENV === 'production'

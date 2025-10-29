@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
+import { APP_ID } from '@/config/constants'
 
 type Mode = {
   mode: string
@@ -18,7 +19,9 @@ export const useMode = create<Mode>()(
         set((state) => ({ mode: state.mode === 'light' ? 'dark' : 'light' })),
     }),
     {
-      name: `onlap-mode${process.env.NODE_ENV === 'development' ? '-dev' : ''}`,
+      name: `${APP_ID}-mode${
+        process.env.NODE_ENV === 'development' ? '-dev' : ''
+      }`,
     }
   )
 )

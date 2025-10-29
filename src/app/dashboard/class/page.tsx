@@ -5,17 +5,17 @@ import { getUser } from '@/lib/actions/user'
 import Main from '@/components/globals/Main'
 
 export const metadata: Metadata = {
-  title: 'User',
-  description: 'User',
+  title: 'Class',
+  description: 'Class',
 }
 
-export default async function Dashboard() {
+export default async function DashboardClass() {
   const session = await getServerSession(authOptions)
   const res = await getUser(session.user.id)
   const user = res.payload
 
   return (
-    <Main title="Dashboard">
+    <Main title="Class">
       <div></div>
     </Main>
   )

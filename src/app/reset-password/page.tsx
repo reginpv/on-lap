@@ -35,7 +35,7 @@ export default async function ResetPassword({
   }
 
   return (
-    <section className="min-h-dvh h-full flex items-center py-10 px-5">
+    <section className="h-dvh flex items-center py-10 px-5">
       <main className="flex flex-col gap-5 items-center justify-center">
         <div>
           <Logo />
