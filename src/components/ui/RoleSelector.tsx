@@ -1,13 +1,21 @@
-import { getServerSession } from 'next-auth'
-import { authOptions } from '@/lib/authOptions'
+'use client'
 
-export default async function RoleSelector() {
-  const session = await getServerSession(authOptions)
-  console.log(session)
+import { useSession } from 'next-auth/react'
+
+export default function RoleSelector() {
+  // Hooks
+  const { data: session } = useSession()
+  const name = session?.user?.name
+  const role = session?.user?.role
+
+  if (!name || !role) return null
 
   return (
-    <select>
-      <option value="role">Admin</option>
-    </select>
+    <div className="flex flex-col">
+      <span className="font-semibold capitalize leading-tight">
+        {name.toLowerCase()}
+      </span>
+      <span className="text-xs capitalize">{role.toLowerCase()}</span>
+    </div>
   )
 }
