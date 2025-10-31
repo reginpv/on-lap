@@ -39,25 +39,7 @@ export type SubjectType =
   | 'Fieldwork'
   | 'Hybrid'
 
-export type SubjectCategory = 'Core' | 'Applied' | 'Specialized' | 'Other'
-
-// Tags for cross-cutting themes
-export type SubjectTag =
-  | 'STEM'
-  | 'Critical Thinking'
-  | 'Creative'
-  | 'Quantitative'
-  | 'Research-Based'
-  | 'Project-Based'
-  | 'Collaborative'
-  | 'Independent Study'
-  | 'Hands-On'
-  | 'Writing Intensive'
-  | 'Data Analysis'
-  | 'Problem Solving'
-  | 'Communication'
-  | 'Leadership'
-  | 'Ethical Reasoning'
+export type SubjectCategory = 'CORE' | 'APPLIED' | 'SPECIALIZED' | 'OTHER'
 
 export type Subject = {
   id: number
@@ -68,7 +50,6 @@ export type Subject = {
   level: AcademicLevel
   difficulty?: DifficultyLevel
   type: SubjectType
-  tags: SubjectTag[]
   prerequisites?: number[] // IDs of prerequisite subjects
   credits?: number
   description?: string

@@ -31,6 +31,7 @@
   }
 
   .form-control {
+    @apply flex flex-col gap-1;
     .error {
       @apply italic ml-1 leading-none mt-1 mr-1 text-[14px] text-rose-500 font-semibold first-letter:uppercase;
     }

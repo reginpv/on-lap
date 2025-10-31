@@ -52,17 +52,16 @@ form {
   input,
   select,
   textarea {
-    @apply p-2 ring-0 outline-none border border-gray-300;
+    @apply p-2 ring-0 outline-none border border-gray-300 bg-white dark:bg-gray-700;
   }
-  select,
   input[type='date'] {
-    @apply appearance-none bg-white;
+    @apply appearance-none;
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
   }
   textarea {
-    @apply field-sizing-content;
+    @apply field-sizing-content min-h-12;
   }
   button {
     @apply p-2 bg-gray-300 cursor-pointer dark:bg-gray-900 dark:text-white;

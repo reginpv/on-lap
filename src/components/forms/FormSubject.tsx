@@ -1,14 +1,16 @@
 'use client'
 
 import { useEffect, useState, useActionState, useRef } from 'react'
-import Image from 'next/image'
-import { updateMe } from '@/lib/actions/me'
-import { useSession } from 'next-auth/react'
-import { UserRoundPen } from 'lucide-react'
-import { Trash } from 'lucide-react'
-import { deleteMedia, uploadMedia } from '@/lib/actions/media'
+import { createSubject } from '@/lib/actions/subject'
 import { ActionResponse } from '@/types/actions'
 import { Subject } from '@prisma/client'
+import {
+  ACADEMIC_LEVELS,
+  SUBJECT_AREAS,
+  SUBJECT_CATEGORIES,
+  SUBJECT_DIFFICULTIES,
+} from '@/config/subject'
+import { useRouter } from 'next/navigation'
 
 export default function FormSubject({
   s,
@@ -20,22 +22,45 @@ export default function FormSubject({
   // Initial state
   const initialState: ActionResponse = {
     success: false,
+    input: null,
     message: null,
     payload: null,
     errors: null,
   }
 
-  //
-  const { data: session, update } = useSession()
+  // Hooks
+  const { push: redirect } = useRouter()
 
-  //
+  // Ref
   const formRef = useRef<HTMLFormElement>(null)
 
-  // States
+  // State
+
+  // Form
   const [state, handleSubmit, isPending] = useActionState(
-    updateMe,
+    createSubject,
     initialState
   )
+
+  //
+  useEffect(() => {
+    console.log('state: ', state)
+    if (state.success) {
+      formRef.current?.reset()
+      // Wait 1000
+      setTimeout(() => {
+        redirect('/dashboard/subject')
+      }, 1000)
+    } else {
+      // Update fields to make sticky form
+      if (state.input) {
+        // select input
+        formRef.current?.querySelectorAll('select').forEach((select) => {
+          select.value = state.input[select.name]
+        })
+      }
+    }
+  }, [state])
 
   return (
     <form
@@ -46,47 +71,181 @@ export default function FormSubject({
       data-loading={isPending}
     >
       <div className="flex flex-col gap-5">
-        {/* Profile Information */}
-        <div className="profile-information-container mb-10 w-full flex flex-col gap-y-4">
-          {/* Name */}
-          <div className="form-control">
-            <label htmlFor="name">Name</label>
-            <div className="flex relative">
-              <input
-                type="text"
-                name="name"
-                defaultValue={s?.name}
-                className={`!w-full ${state.errors?.name ? 'has-errors' : ''}`}
-                disabled={isPending}
-              />
+        {/*  */}
+        <div className=" mb-10 w-full flex flex-col gap-y-4">
+          <div className="flex flex-col md:flex-row gap-5">
+            {/* Subject Name */}
+            <div className="form-control">
+              <label htmlFor="name">Subject name</label>
+              <div className="flex relative">
+                <input
+                  id="name"
+                  type="text"
+                  name="name"
+                  defaultValue={state?.input?.name ?? s?.name}
+                  className={`!w-full ${
+                    state.errors?.name ? 'has-errors' : ''
+                  }`}
+                  disabled={isPending}
+                />
+              </div>
+              {/* Field Alert */}
+              {state.errors?.name && (
+                <div className="error">{state.errors.name}</div>
+              )}
             </div>
+
+            {/* Subject Code */}
+            <div className="form-control">
+              <label htmlFor="code">Subject code</label>
+              <div className="flex relative">
+                <input
+                  id="code"
+                  type="text"
+                  name="code"
+                  defaultValue={state?.input?.code ?? s?.code}
+                  className={`!w-full ${
+                    state.errors?.name ? 'has-errors' : ''
+                  }`}
+                  disabled={isPending}
+                />
+              </div>
+              {/* Field Alert */}
+              {state.errors?.name && (
+                <div className="error">{state.errors.name}</div>
+              )}
+            </div>
+          </div>
+
+          {/* Description */}
+          <div className="form-control">
+            <label htmlFor="description">Description</label>
+            <textarea
+              id="description"
+              name="description"
+              defaultValue={state?.input?.description ?? s?.description}
+              disabled={isPending}
+            />
             {/* Field Alert */}
-            {state.errors?.name && (
-              <div className="error">{state.errors.name}</div>
+            {state.errors?.description && (
+              <div className="error">{state?.errors?.description}</div>
             )}
           </div>
-          {/* Email Address */}
-          <div className="form-control">
-            <label htmlFor="email">Email Address</label>
-            <input
-              name="email"
-              type="email"
-              className={`!w-full ${state.errors?.name ? 'has-errors' : ''}`}
-            />
+
+          {/** Category and area  */}
+          <div className="flex flex-col md:flex-row gap-5">
+            {/* Subject category */}
+            <div className="form-control flex-1">
+              <label htmlFor="category">
+                Subject category {state?.input?.category}
+              </label>
+              <div className="flex relative">
+                <select
+                  id="category"
+                  name="category"
+                  defaultValue={state?.input?.category ?? s?.category ?? ''}
+                  className={`!w-full ${
+                    state.errors?.category ? 'has-errors' : ''
+                  }`}
+                  disabled={isPending}
+                >
+                  <option value="">Select category</option>
+                  {SUBJECT_CATEGORIES.map((category, i) => (
+                    <option key={i} value={category} className="">
+                      {category}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              {/* Field Alert */}
+              {state.errors?.category && (
+                <div className="error">{state.errors.category}</div>
+              )}
+            </div>
+
+            {/* Subject area */}
+            <div className="form-control flex-1">
+              <label htmlFor="area">Subject area</label>
+              <div className="flex relative">
+                <select
+                  id="area"
+                  name="area"
+                  defaultValue={state?.input?.area ?? s?.area ?? ''}
+                  className={`!w-full ${
+                    state.errors?.area ? 'has-errors' : ''
+                  }`}
+                  disabled={isPending}
+                >
+                  <option value="">Select area</option>
+                  {SUBJECT_AREAS.map((area) => (
+                    <option key={area} value={area}>
+                      {area}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              {/* Field Alert */}
+              {state.errors?.area && (
+                <div className="error">{state.errors.area}</div>
+              )}
+            </div>
           </div>
-          {/* Role */}
-          <div className="form-control opacity-30 cursor-not-allowed">
-            <label htmlFor="role" className="cursor-not-allowed">
-              Role
-            </label>
-            <input
-              name="role"
-              type="text"
-              className={`!w-full cursor-not-allowed ${
-                state.errors?.name ? 'has-errors' : ''
-              }`}
-              readOnly
-            />
+
+          {/** LEVEL & DIFF */}
+          <div className="flex flex-col md:flex-row gap-5">
+            {/* Subject level */}
+            <div className="form-control flex-1">
+              <label htmlFor="level">Academic level</label>
+              <div className="flex relative">
+                <select
+                  id="level"
+                  name="level"
+                  defaultValue={state?.input?.level ?? s?.level ?? ''}
+                  className={`!w-full ${
+                    state.errors?.level ? 'has-errors' : ''
+                  }`}
+                  disabled={isPending}
+                >
+                  <option value="">Select level</option>
+                  {ACADEMIC_LEVELS.map((level) => (
+                    <option key={level} value={level}>
+                      {level}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              {/* Field Alert */}
+              {state.errors?.level && (
+                <div className="error">{state?.errors?.level}</div>
+              )}
+            </div>
+
+            {/* Subject difficulty */}
+            <div className="form-control flex-1">
+              <label htmlFor="difficulty">Subject difficulty</label>
+              <div className="flex relative">
+                <select
+                  id="difficulty"
+                  name="difficulty"
+                  defaultValue={state?.input?.difficulty ?? s?.difficulty ?? ''}
+                  className={`!w-full ${
+                    state.errors?.difficulty ? 'has-errors' : ''
+                  }`}
+                  disabled={isPending}
+                >
+                  <option value="">Select difficulty</option>
+                  {SUBJECT_DIFFICULTIES.map((difficulty) => (
+                    <option key={difficulty} value={difficulty}>
+                      {difficulty}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              {/* Field Alert */}
+              {state?.errors?.difficulty && (
+                <div className="error">{state?.errors?.difficulty}</div>
+              )}
+            </div>
           </div>
 
           {state?.message && (

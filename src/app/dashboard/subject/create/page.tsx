@@ -21,9 +21,6 @@ export default async function DashboardSubjectCreatePage() {
       ]}
     >
       <div className="flex flex-col gap-5">
-        <div>
-          <p>Create new subject.</p>
-        </div>
         <FormSubject className="" />
       </div>
     </Main>

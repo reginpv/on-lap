@@ -54,7 +54,7 @@ export const getSubject = cache(async (id: string): Promise<ActionResponse> => {
     },
     ['subject', id],
     {
-      tags: ['subject', table, 'cache'],
+      tags: [`subject-${id}`, table, 'cache'],
     }
   )()
 
@@ -124,7 +124,6 @@ export async function createSubject(
     .get('difficulty')
     ?.toString()
     .trim() as DifficultyLevel
-  const type = formData.get('type')?.toString().trim() as SubjectType
 
   // Validate
 
@@ -132,10 +131,11 @@ export async function createSubject(
   const requiredFields = [
     'name',
     'code',
+    'description',
     'category',
     'area',
     'level',
-    'type',
+    'difficulty',
   ] as const
   type Field = (typeof requiredFields)[number]
   let errors: { [key in Field]?: string } = {}
@@ -160,7 +160,6 @@ export async function createSubject(
         area,
         level,
         difficulty,
-        type,
       },
     }
   }
@@ -187,7 +186,6 @@ export async function createSubject(
           area,
           level,
           difficulty,
-          type,
         },
       }
     }
@@ -202,31 +200,39 @@ export async function createSubject(
         area,
         level,
         difficulty,
-        type,
       },
     })
 
     // Revalidate cache tags
-    revalidateTag('users')
+    revalidateTag('subjects')
     revalidateTag(table)
 
     return {
       success: true,
-      message: 'User created successfully',
+      message: 'Subject created successfully',
       payload: user,
     }
   } catch (error) {
-    console.log('User create error: ', error)
+    console.log('Subject create error: ', error)
     return {
       success: false,
       payload: null,
-      message: 'Failed to create user. Please contact admin.',
+      message: 'Failed to create Subject. Please contact admin.',
+      input: {
+        name,
+        code,
+        category,
+        description,
+        area,
+        level,
+        difficulty,
+      },
     }
   }
 }
 
-// DELETE
-export async function deleteUser(id: string) {
+// DELETE SUBJECT
+export async function deleteSubject(id: string) {
   try {
     const user = await prisma[table].update({
       where: {

@@ -50,9 +50,6 @@ model Subject {
   area                        SubjectArea
   level                       AcademicLevel?
   difficulty                  DifficultyLevel?
-  type                        SubjectType?
-  credits                     Int?
-  parentSubjectId             Int?
   createdAt                   DateTime             @default(now())
   updatedAt                   DateTime             @updatedAt
   deletedAt                   DateTime?
@@ -88,13 +85,18 @@ enum SubjectArea {
 }
 
 enum AcademicLevel {
-  ELEMENTARY
-  MIDDLE_SCHOOL
-  HIGH_SCHOOL
-  UNDERGRADUATE
-  GRADUATE
-  PROFESSIONAL
-  CONTINUING_EDUCATION
+  GRADE1
+  GRADE2
+  GRADE3
+  GRADE4
+  GRADE5
+  GRADE6
+  GRADE7
+  GRADE8
+  GRADE9
+  GRADE10
+  GRADE11
+  GRADE12
 }
 
 enum DifficultyLevel {
