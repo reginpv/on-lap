@@ -12,6 +12,7 @@ import {
   AcademicLevel,
   DifficultyLevel,
 } from '@prisma/client'
+import { PAGINATION_PER_PAGE } from '@/config/constants'
 
 const table = 'subject'
 
@@ -62,48 +63,87 @@ export const getSubject = cache(async (id: string): Promise<ActionResponse> => {
 })
 
 // GET ALL
-export const getSubjects = cache(async (): Promise<ActionResponse> => {
-  const data = await nextCache(
-    async () => {
-      try {
-        const subjects = await prisma[table].findMany({
-          where: {
+export const getSubjects = cache(
+  async (
+    page: number = 1,
+    limit: number = PAGINATION_PER_PAGE,
+    filter: string = ''
+  ): Promise<ActionResponse> => {
+    const data = await nextCache(
+      async () => {
+        try {
+          let whereCondition = {
             deletedAt: null,
-          },
-        })
+          }
 
-        console.log(`---DB HIT: GET ALL ${table} from database---`)
+          if (filter) {
+            const f = JSON.parse(JSON.stringify(filter))
+            whereCondition = {
+              ...whereCondition,
+              ...(f.search
+                ? {
+                    OR: [
+                      { name: { contains: f.search } },
+                      { code: { contains: f.search } },
+                    ],
+                  }
+                : {}),
+            }
+          }
 
-        if (!subjects || subjects.length === 0) {
+          console.log(`---DB HIT: GET ALL ${table} from database---`)
+
+          const subjects = await Promise.all([
+            prisma[table].count({
+              where: whereCondition,
+            }),
+            prisma[table].findMany({
+              where: whereCondition,
+              orderBy: {
+                id: 'desc',
+              },
+              skip: page ? (+page - 1) * limit : 0,
+              ...(limit ? { take: limit } : {}),
+            }),
+          ])
+
+          if (!subjects[1] || subjects[1].length === 0) {
+            return {
+              success: true,
+              payload: [],
+              message: 'No subjects found!',
+            }
+          }
+
           return {
             success: true,
-            payload: [],
-            message: 'No subjects found!',
+            payload: subjects[1],
+            totalCount: subjects[0],
+            message: 'Subjects fetched successfully!',
+          }
+        } catch (error) {
+          console.error('[getSubjects | Prisma | Error]:', error)
+          return {
+            success: false,
+            payload: null,
+            message: 'Failed to get subjects',
           }
         }
-
-        return {
-          success: true,
-          payload: subjects,
-          message: 'Subjects fetched successfully!',
-        }
-      } catch (error) {
-        console.error('[getSubjects | Prisma | Error]:', error)
-        return {
-          success: false,
-          payload: null,
-          message: 'Failed to get subjects',
-        }
+      },
+      ['subjects', JSON.stringify({ page, limit, filter })],
+      {
+        tags: [
+          'subjects',
+          `subjects-${JSON.stringify({ page, limit, filter })}`,
+          table,
+          'cache',
+        ],
       }
-    },
-    ['subjects'],
-    {
-      tags: ['subjects', table, 'cache'],
-    }
-  )()
+    )()
 
-  return data
-})
+    return data
+  }
+)
 
 // CREATE
 export async function createSubject(
