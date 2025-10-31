@@ -127,7 +127,7 @@ export async function createUser(
       success: false,
       errors,
       payload: null,
-      message: 'Please fill in all required fields.',
+      message: null,
       input: {
         name,
         email,
@@ -182,7 +182,7 @@ export async function createUser(
     return {
       success: false,
       payload: null,
-      message: 'Failed to create user',
+      message: 'Failed to create user. Please contact admin.',
     }
   }
 }
