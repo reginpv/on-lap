@@ -2,15 +2,24 @@
 
 import { useRef, useActionState } from 'react'
 import { updateMePassword } from '@/lib/actions/me'
+import { ActionResponse } from '@/types/actions'
 
 export default function FormSecurity({ className }: { className?: string }) {
-  const formRef = useRef<HTMLFormElement>(null)
-
-  const [state, handleSubmit, isPending] = useActionState(updateMePassword, {
+  // Initial state
+  const initialState: ActionResponse = {
     success: false,
     message: null,
+    payload: null,
     errors: null,
-  })
+  }
+
+  // Refs
+  const formRef = useRef<HTMLFormElement>(null)
+
+  const [state, handleSubmit, isPending] = useActionState(
+    updateMePassword,
+    initialState
+  )
 
   return (
     <form

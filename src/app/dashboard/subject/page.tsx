@@ -10,18 +10,18 @@ export const metadata: Metadata = {
   description: 'Class',
 }
 
-export default async function DashboardClass() {
+export default async function DashboardSubject() {
   const session = await getServerSession(authOptions)
   const res = await getUser(session.user.id)
   const user = res.payload
 
   return (
     <Main
-      title="Class"
+      title="Subject"
       actions={[
         {
-          label: 'Create Class',
-          href: '/dashboard/class/create',
+          label: 'Create Subject',
+          href: '/dashboard/subject/create',
           icon: Plus,
         },
       ]}

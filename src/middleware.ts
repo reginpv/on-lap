@@ -1,11 +1,9 @@
+// @/src/middleware.ts
+
 export { default } from 'next-auth/middleware'
 import { NextResponse, NextRequest } from 'next/server'
 import { getToken } from 'next-auth/jwt'
-import { JWT } from 'next-auth/jwt'
-
-interface Token extends JWT {
-  role?: number
-}
+import { Token } from '@/types/auth'
 
 export async function middleware(req: NextRequest) {
   const token: Token | null = await getToken({

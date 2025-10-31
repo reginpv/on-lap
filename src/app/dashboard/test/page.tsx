@@ -6,22 +6,22 @@ import Main from '@/components/globals/Main'
 import { Plus } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'Class',
-  description: 'Class',
+  title: 'Test',
+  description: 'Test',
 }
 
-export default async function DashboardClass() {
+export default async function DashboardTest() {
   const session = await getServerSession(authOptions)
   const res = await getUser(session.user.id)
   const user = res.payload
 
   return (
     <Main
-      title="Class"
+      title="Test"
       actions={[
         {
-          label: 'Create Class',
-          href: '/dashboard/class/create',
+          label: 'Create Test',
+          href: '/dashboard/test/create',
           icon: Plus,
         },
       ]}

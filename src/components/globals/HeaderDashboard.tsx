@@ -1,7 +1,7 @@
 import Link from 'next/link'
-import { APP_NAME } from '@/config/constants'
 import DrawerProfile from '@/components/globals/DrawerProfile'
 import ButtonDrawer from '@/components/ui/ButtonDrawer'
+import RoleSelector from '../ui/RoleSelector'
 
 export default function HeaderDashboard() {
   return (
@@ -11,9 +11,7 @@ export default function HeaderDashboard() {
           <div className="flex items-center gap-3">
             <ButtonDrawer />
 
-            <h1 className="">
-              <Link href="/">{APP_NAME}</Link>
-            </h1>
+            <RoleSelector />
           </div>
 
           <div className="flex items-center gap-5">

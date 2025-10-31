@@ -7,11 +7,12 @@ import { unstable_cache as nextCache, revalidateTag } from 'next/cache'
 import { getServerSession, Session } from 'next-auth'
 import { authOptions } from '@/lib/authOptions'
 import { isValidEmail } from '@/lib/helper'
+import { ActionResponse } from '@/types/actions'
 
 const table = 'user'
 
 // GET ME
-export const getMe: User = cache(async () => {
+export const getMe = cache(async (): Promise<ActionResponse> => {
   const session = (await getServerSession(authOptions)) as Session | null
 
   if (!session || !session.user || !session.user.id) {
@@ -40,6 +41,7 @@ export const getMe: User = cache(async () => {
           return {
             success: true,
             payload: [],
+            message: 'No data found!',
           }
         }
 
@@ -67,7 +69,10 @@ export const getMe: User = cache(async () => {
 })
 
 // UPDATE ME
-export async function updateMe(_prevState: User, formData: FormData) {
+export async function updateMe(
+  _prevState: ActionResponse,
+  formData: FormData
+): Promise<ActionResponse> {
   // Session
   const session = await getServerSession(authOptions)
   const id = session?.user?.id as string
@@ -122,12 +127,13 @@ export async function updateMe(_prevState: User, formData: FormData) {
       return {
         success: false,
         errors,
+        payload: null,
         input: {
           name,
           email,
           id,
         },
-        message: null,
+        message: 'Please fill in all required fields.',
       }
     }
 
@@ -175,7 +181,10 @@ export async function updateMe(_prevState: User, formData: FormData) {
 }
 
 // UPDATE ME PASSWORD
-export async function updateMePassword(_prevState: User, formData: FormData) {
+export async function updateMePassword(
+  _prevState: ActionResponse,
+  formData: FormData
+): Promise<ActionResponse> {
   const session = (await getServerSession(authOptions)) as Session | null
   if (!session || !session.user || !session.user.id) {
     return {
@@ -223,6 +232,7 @@ export async function updateMePassword(_prevState: User, formData: FormData) {
   if (Object.keys(errors).length > 0) {
     return {
       success: false,
+      payload: null,
       errors,
       input: { id },
       message: null,

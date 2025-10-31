@@ -3,8 +3,17 @@
 import { useActionState, useEffect, useRef, useState } from 'react'
 import { createUser } from '@/lib/actions/user'
 import { useRouter } from 'next/navigation'
+import { ActionResponse } from '@/types/actions'
 
 export default function FormSignup({ className }: { className?: string }) {
+  // Initial state
+  const initialState: ActionResponse = {
+    success: false,
+    message: null,
+    payload: null,
+    errors: null,
+  }
+
   // Hooks
   const { push: redirect } = useRouter()
 
@@ -12,7 +21,10 @@ export default function FormSignup({ className }: { className?: string }) {
   const formRef = useRef<HTMLFormElement>(null)
 
   // States
-  const [state, handleSubmit, pending] = useActionState(createUser, {})
+  const [state, handleSubmit, pending] = useActionState(
+    createUser,
+    initialState
+  )
   const [selectedRole, setSelectedRole] = useState('STUDENT')
 
   useEffect(() => {

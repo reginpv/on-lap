@@ -7,6 +7,7 @@ import { useSession } from 'next-auth/react'
 import { UserRoundPen } from 'lucide-react'
 import { Trash } from 'lucide-react'
 import { deleteMedia, uploadMedia } from '@/lib/actions/media'
+import { ActionResponse } from '@/types/actions'
 
 export default function FormProfile({
   m,
@@ -15,6 +16,14 @@ export default function FormProfile({
   m: User
   className?: string
 }) {
+  // Initial state
+  const initialState: ActionResponse = {
+    success: false,
+    message: null,
+    payload: null,
+    errors: null,
+  }
+
   //
   const { data: session, update } = useSession()
 
@@ -24,11 +33,10 @@ export default function FormProfile({
   // States
   const [pending, setPending] = useState(false)
   const [me, setMe] = useState<User>(m)
-  const [state, handleSubmit, isPending] = useActionState(updateMe, {
-    success: false,
-    message: null,
-    errors: null,
-  })
+  const [state, handleSubmit, isPending] = useActionState(
+    updateMe,
+    initialState
+  )
 
   //
   useEffect(() => {
@@ -76,7 +84,7 @@ export default function FormProfile({
         }))
         //
         const update = await updateMe(
-          formRef.current,
+          state,
           (() => {
             const fd = new FormData()
             fd.append('name', me.name)
@@ -109,7 +117,7 @@ export default function FormProfile({
       //
       const update = await Promise.all([
         deleteMedia(formRef.current, formData),
-        updateMe(formRef.current, formData),
+        updateMe(state, formData),
       ])
 
       if (update[0].success) {
