@@ -271,6 +271,111 @@ export async function createSubject(
   }
 }
 
+// UPDATE
+export async function updateSubject(
+  _prevState: ActionResponse,
+  formData: FormData
+): Promise<ActionResponse> {
+  const id = formData.get('id')?.toString().trim()
+  const name = formData.get('name')?.toString().trim()
+  const code = formData.get('code')?.toString().trim()
+  const category = formData
+    .get('category')
+    ?.toString()
+    .trim() as SubjectCategory
+  const description = formData.get('description')?.toString().trim()
+  const area = formData.get('area')?.toString().trim() as SubjectArea
+  const level = formData.get('level')?.toString().trim() as AcademicLevel
+
+  const difficulty = formData
+    .get('difficulty')
+    ?.toString()
+    .trim() as DifficultyLevel
+
+  // Validate
+
+  // Check for missing required fields
+  const requiredFields = [
+    'name',
+    'code',
+    'description',
+    'category',
+    'area',
+    'level',
+    'difficulty',
+  ] as const
+  type Field = (typeof requiredFields)[number]
+  let errors: { [key in Field]?: string } = {}
+  requiredFields.forEach((field) => {
+    if (!formData.get(field)?.toString().trim()) {
+      errors[field] = `${field} is required.`
+    }
+  })
+
+  // Has error, return data
+  if (Object.keys(errors).length > 0) {
+    return {
+      success: false,
+      errors,
+      payload: null,
+      message: null,
+      input: {
+        name,
+        code,
+        category,
+        description,
+        area,
+        level,
+        difficulty,
+      },
+    }
+  }
+
+  try {
+    // Create user
+    const user = await prisma[table].update({
+      where: {
+        id: +id,
+      },
+      data: {
+        name,
+        code,
+        category,
+        description,
+        area,
+        level,
+        difficulty,
+      },
+    })
+
+    // Revalidate cache tags
+    revalidateTag('subjects')
+    revalidateTag(table)
+
+    return {
+      success: true,
+      message: 'Subject updated successfully',
+      payload: user,
+    }
+  } catch (error) {
+    console.log('Subject updated error: ', error)
+    return {
+      success: false,
+      payload: null,
+      message: 'Failed to updated Subject. Please contact admin.',
+      input: {
+        name,
+        code,
+        category,
+        description,
+        area,
+        level,
+        difficulty,
+      },
+    }
+  }
+}
+
 // SOFT DELETE SUBJECT
 export async function deleteSubject(id: number) {
   try {

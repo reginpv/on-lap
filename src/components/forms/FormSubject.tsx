@@ -1,7 +1,7 @@
 'use client'
 
-import { useEffect, useState, useActionState, useRef } from 'react'
-import { createSubject } from '@/lib/actions/subject'
+import { useEffect, useActionState, useRef } from 'react'
+import { createSubject, updateSubject } from '@/lib/actions/subject'
 import { ActionResponse } from '@/types/actions'
 import { Subject } from '@prisma/client'
 import {
@@ -38,7 +38,7 @@ export default function FormSubject({
 
   // Form
   const [state, handleSubmit, isPending] = useActionState(
-    createSubject,
+    s ? updateSubject : createSubject,
     initialState
   )
 
@@ -260,6 +260,9 @@ export default function FormSubject({
               {state.message}
             </div>
           )}
+
+          {/** Hiddens */}
+          {s && <input type="hidden" name="id" value={s.id} />}
 
           {/* Save Button */}
           <button
