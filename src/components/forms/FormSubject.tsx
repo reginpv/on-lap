@@ -75,13 +75,14 @@ export default function FormSubject({
         <div className=" mb-10 w-full flex flex-col gap-y-4">
           <div className="flex flex-col md:flex-row gap-5">
             {/* Subject Name */}
-            <div className="form-control">
+            <div className="form-control flex-1">
               <label htmlFor="name">Subject name</label>
               <div className="flex relative">
                 <input
                   id="name"
                   type="text"
                   name="name"
+                  placeholder="General Biology 1"
                   defaultValue={state?.input?.name ?? s?.name}
                   className={`!w-full ${
                     state.errors?.name ? 'has-errors' : ''
@@ -96,13 +97,14 @@ export default function FormSubject({
             </div>
 
             {/* Subject Code */}
-            <div className="form-control">
+            <div className="form-control flex-1">
               <label htmlFor="code">Subject code</label>
               <div className="flex relative">
                 <input
                   id="code"
                   type="text"
                   name="code"
+                  placeholder="BIO101"
                   defaultValue={state?.input?.code ?? s?.code}
                   className={`!w-full ${
                     state.errors?.name ? 'has-errors' : ''
@@ -123,6 +125,7 @@ export default function FormSubject({
             <textarea
               id="description"
               name="description"
+              placeholder="What is this subject about?"
               defaultValue={state?.input?.description ?? s?.description}
               disabled={isPending}
             />
@@ -151,8 +154,8 @@ export default function FormSubject({
                 >
                   <option value="">Select category</option>
                   {SUBJECT_CATEGORIES.map((category, i) => (
-                    <option key={i} value={category} className="">
-                      {category}
+                    <option key={i} value={category.value} className="">
+                      {category.label}
                     </option>
                   ))}
                 </select>
@@ -178,8 +181,8 @@ export default function FormSubject({
                 >
                   <option value="">Select area</option>
                   {SUBJECT_AREAS.map((area) => (
-                    <option key={area} value={area}>
-                      {area}
+                    <option key={area.value} value={area.value}>
+                      {area.label}
                     </option>
                   ))}
                 </select>
@@ -208,8 +211,8 @@ export default function FormSubject({
                 >
                   <option value="">Select level</option>
                   {ACADEMIC_LEVELS.map((level) => (
-                    <option key={level} value={level}>
-                      {level}
+                    <option key={level.value} value={level.value}>
+                      {level.label}
                     </option>
                   ))}
                 </select>
@@ -235,8 +238,8 @@ export default function FormSubject({
                 >
                   <option value="">Select difficulty</option>
                   {SUBJECT_DIFFICULTIES.map((difficulty) => (
-                    <option key={difficulty} value={difficulty}>
-                      {difficulty}
+                    <option key={difficulty.value} value={difficulty.value}>
+                      {difficulty.label}
                     </option>
                   ))}
                 </select>

@@ -44,7 +44,11 @@ export default function Table({
             </tr>
           ) : (
             data.map((row, i) => (
-              <tr id={row.id} key={i} className="even:bg-[#B28FE81A]">
+              <tr
+                id={row.id}
+                key={i}
+                className="even:bg-secondary hover:bg-white hover:dark:bg-gray-500 animated"
+              >
                 {columns.map((column, j) => (
                   <td key={j} className={`${column?.className ?? ''}`}>
                     {column.dataType === 'date' && row[column.accessor]

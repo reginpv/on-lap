@@ -271,12 +271,12 @@ export async function createSubject(
   }
 }
 
-// DELETE SUBJECT
-export async function deleteSubject(id: string) {
+// SOFT DELETE SUBJECT
+export async function deleteSubject(id: number) {
   try {
     const user = await prisma[table].update({
       where: {
-        id: parseInt(id),
+        id,
       },
       data: {
         deletedAt: new Date(),
@@ -284,8 +284,8 @@ export async function deleteSubject(id: string) {
     })
 
     // Revalidate cache tags
-    revalidateTag('users')
-    revalidateTag('user')
+    revalidateTag('subjects')
+    revalidateTag(`subject-${id}`)
 
     return {
       success: true,
