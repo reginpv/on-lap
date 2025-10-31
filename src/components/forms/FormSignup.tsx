@@ -104,7 +104,7 @@ export default function FormSignup({ className }: { className?: string }) {
           <label
             htmlFor={role.value}
             key={role.value}
-            className={`animated !ml-0 !mb-0 flex-1 p-3 flex items-center gap-1 justify-center  cursor-pointer text-center capitalize ${
+            className={`animated ml-0! mb-0! flex-1 p-3 flex items-center gap-1 justify-center  cursor-pointer text-center capitalize ${
               role.value === selectedRole
                 ? 'bg-green-200 text-green-500 font-bold opacity-100'
                 : 'bg-secondary opacity-50 grayscale-100 hover:grayscale-10'
