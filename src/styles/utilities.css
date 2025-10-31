@@ -20,17 +20,44 @@
   }
 
   .button {
-    @apply transition-all ease-in-out duration-300 hover:bg-gray-300 dark:hover:bg-gray-700 min-w-10 min-h-10 flex items-center justify-center py-2 px-3;
+    @apply rounded-md transition-all ease-in-out duration-300 min-w-10 min-h-10 flex items-center justify-center py-2 px-3;
+
     &.button--circle {
-      @apply rounded-full px-0 py-0 flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-700;
+      @apply rounded-full px-0 py-0 flex items-center justify-center;
+    }
+
+    &.button--default {
+      @apply bg-secondary hover:bg-gray-300 dark:hover:bg-gray-700;
+    }
+    &.button--primary {
+      @apply bg-primary hover:brightness-90;
+    }
+    &.button--secondary {
+      @apply bg-secondary hover:bg-gray-300 dark:hover:bg-gray-700;
+    }
+    &.button--danger {
+      @apply bg-red-300 text-red-700 hover:text-white hover:bg-red-400;
+    }
+    &.button--success {
+      @apply bg-green-500 hover:bg-green-600;
+    }
+    &.button--warning {
+      @apply bg-yellow-500 hover:bg-yellow-600;
+    }
+    &.button--info {
+      @apply bg-blue-500 hover:bg-blue-600;
     }
   }
 
   .container {
-    @apply mx-auto px-5 py-3;
+    @apply mx-auto;
+    &.container--custom {
+      @apply max-w-5xl;
+    }
   }
 
   .form-control {
+    @apply flex flex-col gap-1;
     .error {
       @apply italic ml-1 leading-none mt-1 mr-1 text-[14px] text-rose-500 font-semibold first-letter:uppercase;
     }
@@ -43,6 +70,28 @@
     @apply outline-1 outline-dashed outline-red-300;
     * {
       @apply outline-1 outline-dashed outline-red-300;
+    }
+  }
+
+  .table {
+    @apply w-full max-w-full overflow-y-hidden;
+    &.table--default {
+      thead {
+        tr {
+          @apply border-b border-secondary bg-secondary;
+          th {
+            @apply py-4 px-6 text-left font-bold;
+          }
+        }
+      }
+      tbody {
+        tr {
+          @apply border-b border-secondary;
+          td {
+            @apply py-4 px-6;
+          }
+        }
+      }
     }
   }
 

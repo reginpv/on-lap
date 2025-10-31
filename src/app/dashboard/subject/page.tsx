@@ -1,32 +1,40 @@
 import { Metadata } from 'next'
-import { getServerSession } from 'next-auth'
-import { authOptions } from '@/lib/authOptions'
-import { getUser } from '@/lib/actions/user'
 import Main from '@/components/globals/Main'
 import { Plus } from 'lucide-react'
+import { getSubjects } from '@/lib/actions/subject'
+import SubjectTable from '@/components/SubjectTable'
 
 export const metadata: Metadata = {
-  title: 'Class',
-  description: 'Class',
+  title: 'Sublect list',
+  description: 'Sublect list',
 }
 
 export default async function DashboardSubject() {
-  const session = await getServerSession(authOptions)
-  const res = await getUser(session.user.id)
-  const user = res.payload
+  //
+  const PAGE = 1
+  const resSubjects = await getSubjects(PAGE)
+  const totalCount = resSubjects.totalCount
+  const subjects = resSubjects.payload
+
+  //
 
   return (
     <Main
-      title="Subject"
+      title={`Subject List ${totalCount && `(${totalCount})`}`}
       actions={[
         {
-          label: 'Create Subject',
+          label: `Create Subject`,
           href: '/dashboard/subject/create',
           icon: Plus,
         },
       ]}
     >
-      <div></div>
+      <div>
+        <div className="container container--custom ">
+          {/** Table */}
+          <SubjectTable subjects={subjects} />
+        </div>
+      </div>
     </Main>
   )
 }
