@@ -2,61 +2,112 @@
 
 import prisma from '@/lib/prisma'
 import { hash } from 'bcrypt'
-import { revalidatePath } from 'next/cache'
+import { revalidateTag, unstable_cache as nextCache } from 'next/cache'
+import { ActionResponse } from '@/types/actions'
+import { cache } from 'react'
+import { Role } from '@prisma/client'
 
 const table = 'user'
 
 // GET ONE
 // Because Session returns ID as string, we need to parse it to integer
-export async function getUser(id: string) {
-  try {
-    const user = await prisma[table].findFirst({
-      where: {
-        id: +id,
-      },
-    })
+export const getUser = cache(async (id: string): Promise<ActionResponse> => {
+  const data = await nextCache(
+    async () => {
+      try {
+        const user = await prisma[table].findFirst({
+          where: {
+            id: +id,
+            deletedAt: null,
+          },
+        })
 
-    return {
-      success: true,
-      payload: user,
+        console.log(`---DB HIT: GET USER with ID: ${id} from database---`)
+
+        if (!user) {
+          return {
+            success: true,
+            payload: null,
+            message: 'No user found!',
+          }
+        }
+
+        return {
+          success: true,
+          payload: user,
+          message: 'User fetched successfully!',
+        }
+      } catch (error) {
+        console.error('[getUser | Prisma | Error]:', error)
+        return {
+          success: false,
+          payload: null,
+          message: 'Failed to get user',
+        }
+      }
+    },
+    ['user', id],
+    {
+      tags: ['user', table, 'cache'],
     }
-  } catch (error) {
-    return {
-      success: false,
-      payload: null,
-      message: 'Failed to get user',
-    }
-  }
-}
+  )()
+
+  return data
+})
 
 // GET ALL
-export async function getUsers() {
-  try {
-    const users = await prisma[table].findMany({
-      where: {
-        deletedAt: null,
-      },
-    })
+export const getUsers = cache(async (): Promise<ActionResponse> => {
+  const data = await nextCache(
+    async () => {
+      try {
+        const users = await prisma[table].findMany({
+          where: {
+            deletedAt: null,
+          },
+        })
 
-    return {
-      success: true,
-      payload: users,
+        console.log(`---DB HIT: GET ALL USERS from database---`)
+
+        if (!users || users.length === 0) {
+          return {
+            success: true,
+            payload: [],
+            message: 'No users found!',
+          }
+        }
+
+        return {
+          success: true,
+          payload: users,
+          message: 'Users fetched successfully!',
+        }
+      } catch (error) {
+        console.error('[getUsers | Prisma | Error]:', error)
+        return {
+          success: false,
+          payload: null,
+          message: 'Failed to get users',
+        }
+      }
+    },
+    ['users'],
+    {
+      tags: ['users', table, 'cache'],
     }
-  } catch (error) {
-    return {
-      success: false,
-      payload: null,
-      message: 'Failed to get users',
-    }
-  }
-}
+  )()
+
+  return data
+})
 
 // CREATE
-export async function createUser(prevState: User, formData: User) {
+export async function createUser(
+  _prevState: ActionResponse,
+  formData: FormData
+): Promise<ActionResponse> {
   const name = formData.get('name')?.toString().trim()
   const email = formData.get('email')?.toString().trim()
   const password = formData.get('password')?.toString().trim()
-  const role = formData.get('role')?.toString().trim()
+  const role = formData.get('role')?.toString().trim() as Role
 
   // Validate
 
@@ -75,6 +126,8 @@ export async function createUser(prevState: User, formData: User) {
     return {
       success: false,
       errors,
+      payload: null,
+      message: 'Please fill in all required fields.',
       input: {
         name,
         email,
@@ -95,7 +148,8 @@ export async function createUser(prevState: User, formData: User) {
     if (userExist) {
       return {
         success: false,
-        message: [`Email ${email} already exists.`],
+        message: `Email ${email} already exists.`,
+        payload: null,
         input: {
           name,
           email,
@@ -114,8 +168,9 @@ export async function createUser(prevState: User, formData: User) {
       },
     })
 
-    // Revalidate route cache
-    revalidatePath('/users')
+    // Revalidate cache tags
+    revalidateTag('users')
+    revalidateTag(table)
 
     return {
       success: true,
@@ -135,20 +190,26 @@ export async function createUser(prevState: User, formData: User) {
 // DELETE
 export async function deleteUser(id: string) {
   try {
-    const user = await prisma[table].delete({
+    const user = await prisma[table].update({
       where: {
         id: parseInt(id),
       },
+      data: {
+        deletedAt: new Date(),
+      },
     })
 
-    // Revalidate route cache
-    revalidatePath('/users')
+    // Revalidate cache tags
+    revalidateTag('users')
+    revalidateTag('user')
 
     return {
       success: true,
       payload: user,
+      message: 'User deleted successfully',
     }
   } catch (error) {
+    console.error('[deleteUser | Prisma | Error]:', error)
     return {
       success: false,
       payload: null,
