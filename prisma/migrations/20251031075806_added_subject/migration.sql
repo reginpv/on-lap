@@ -1,0 +1,46 @@
+-- CreateEnum
+CREATE TYPE "SubjectCategory" AS ENUM ('CORE', 'APPLIED', 'SPECIALIZED', 'OTHER');
+
+-- CreateEnum
+CREATE TYPE "SubjectArea" AS ENUM ('MATHEMATICS', 'SCIENCE', 'LANGUAGE_LITERATURE', 'SOCIAL_SCIENCES', 'ARTS_HUMANITIES', 'TECHNOLOGY_ENGINEERING', 'BUSINESS_ECONOMICS', 'HEALTH_MEDICINE', 'PHYSICAL_EDUCATION', 'VOCATIONAL_TECHNICAL');
+
+-- CreateEnum
+CREATE TYPE "AcademicLevel" AS ENUM ('ELEMENTARY', 'MIDDLE_SCHOOL', 'HIGH_SCHOOL', 'UNDERGRADUATE', 'GRADUATE', 'PROFESSIONAL', 'CONTINUING_EDUCATION');
+
+-- CreateEnum
+CREATE TYPE "DifficultyLevel" AS ENUM ('BEGINNER', 'INTERMEDIATE', 'ADVANCED', 'EXPERT');
+
+-- CreateEnum
+CREATE TYPE "SubjectType" AS ENUM ('THEORETICAL', 'PRACTICAL', 'LABORATORY', 'STUDIO', 'SEMINAR', 'WORKSHOP', 'FIELDWORK', 'HYBRID');
+
+-- CreateEnum
+CREATE TYPE "Tag" AS ENUM ('STEM', 'CRITICAL_THINKING', 'CREATIVE', 'QUANTITATIVE', 'RESEARCH_BASED', 'PROJECT_BASED', 'COLLABORATIVE', 'INDEPENDENT_STUDY', 'HANDS_ON', 'WRITING_INTENSIVE', 'DATA_ANALYSIS', 'PROBLEM_SOLVING', 'COMMUNICATION', 'LEADERSHIP', 'ETHICAL_REASONING');
+
+-- CreateEnum
+CREATE TYPE "EnrollmentStatus" AS ENUM ('ENROLLED', 'COMPLETED', 'DROPPED', 'FAILED', 'IN_PROGRESS');
+
+-- AlterTable
+ALTER TABLE "User" ADD COLUMN     "emailVerified" TIMESTAMP(3);
+
+-- CreateTable
+CREATE TABLE "Subject" (
+    "id" SERIAL NOT NULL,
+    "name" TEXT NOT NULL,
+    "code" TEXT,
+    "description" TEXT,
+    "category" "SubjectCategory" NOT NULL,
+    "area" "SubjectArea" NOT NULL,
+    "level" "AcademicLevel",
+    "difficulty" "DifficultyLevel",
+    "type" "SubjectType",
+    "credits" INTEGER,
+    "parentSubjectId" INTEGER,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "deletedAt" TIMESTAMP(3),
+
+    CONSTRAINT "Subject_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Subject_code_key" ON "Subject"("code");

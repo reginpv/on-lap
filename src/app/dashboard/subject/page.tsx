@@ -17,7 +17,7 @@ export default async function DashboardSubject() {
 
   return (
     <Main
-      title="Subject"
+      title="Subject List"
       actions={[
         {
           label: 'Create Subject',
