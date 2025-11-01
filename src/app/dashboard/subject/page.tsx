@@ -5,6 +5,8 @@ import { getSubjects } from '@/lib/actions/subject'
 import SubjectTable from '@/components/SubjectTable'
 import Pagination from '@/components/ui/Pagination'
 import { PAGINATION_PER_PAGE } from '@/config/constants'
+import FormSearch from '@/components/forms/FormSearch'
+import Link from 'next/link'
 
 export const metadata: Metadata = {
   title: 'Sublect list',
@@ -20,10 +22,10 @@ export default async function DashboardSubject({
   }>
 }) {
   //
-  const { page } = await searchParams
+  const { page, search } = await searchParams
   const PAGE = page ? +page : 1
 
-  const resSubjects = await getSubjects(PAGE)
+  const resSubjects = await getSubjects(PAGE, PAGINATION_PER_PAGE, { search })
   const totalCount = resSubjects.totalCount
   const subjects = resSubjects.payload
 
@@ -41,7 +43,17 @@ export default async function DashboardSubject({
     >
       <div>
         {/** Table */}
-        <div className="container container--custom ">
+        <div className="container container--custom flex flex-col gap-5">
+          <FormSearch />
+          {search && (
+            <div className="pl-1">
+              {totalCount ? totalCount : 0} search results for{' '}
+              <strong>{search}</strong>.{' '}
+              <Link href="/dashboard/subject" className="underline">
+                Clear search results.
+              </Link>
+            </div>
+          )}
           <SubjectTable subjects={subjects} />
         </div>
 

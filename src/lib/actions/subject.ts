@@ -1,14 +1,12 @@
 'use server'
 
 import prisma from '@/lib/prisma'
-import { hash } from 'bcrypt'
 import { revalidateTag, unstable_cache as nextCache } from 'next/cache'
 import { ActionResponse } from '@/types/actions'
 import { cache } from 'react'
 import {
   SubjectCategory,
   SubjectArea,
-  SubjectType,
   AcademicLevel,
   DifficultyLevel,
 } from '@prisma/client'
@@ -67,7 +65,7 @@ export const getSubjects = cache(
   async (
     page: number = 1,
     limit: number = PAGINATION_PER_PAGE,
-    filter: string = ''
+    filter: object = null
   ): Promise<ActionResponse> => {
     const data = await nextCache(
       async () => {
@@ -76,6 +74,8 @@ export const getSubjects = cache(
             deletedAt: null,
           }
 
+          console.log(filter)
+
           if (filter) {
             const f = JSON.parse(JSON.stringify(filter))
             whereCondition = {
@@ -83,8 +83,8 @@ export const getSubjects = cache(
               ...(f.search
                 ? {
                     OR: [
-                      { name: { contains: f.search } },
-                      { code: { contains: f.search } },
+                      { name: { contains: f.search, mode: 'insensitive' } },
+                      { code: { contains: f.search, mode: 'insensitive' } },
                     ],
                   }
                 : {}),

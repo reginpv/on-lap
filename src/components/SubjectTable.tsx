@@ -46,7 +46,7 @@ export default function SubjectTable({ subjects }: { subjects: Subject[] }) {
     <>
       <div className="overflow-x-auto">
         <Table
-          className="mb-10 rounded-xl"
+          className="mb-5 rounded-xl"
           data={subjects.map((subject: Subject) => ({
             ...subject,
             level: subject.level.toLowerCase(),

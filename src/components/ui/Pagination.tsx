@@ -52,7 +52,7 @@ export default function Pagination({
         </Link>
       </div>
 
-      <div className="items-center gap-px hidden sm:inline-flex">
+      <div className="items-center gap-px inline-flex">
         {pageNumbers.map((pageNum) => (
           <Link
             key={pageNum}
