@@ -3,21 +3,31 @@ import Main from '@/components/globals/Main'
 import { Plus } from 'lucide-react'
 import { getSubjects } from '@/lib/actions/subject'
 import SubjectTable from '@/components/SubjectTable'
+import Pagination from '@/components/ui/Pagination'
+import { PAGINATION_PER_PAGE } from '@/config/constants'
 
 export const metadata: Metadata = {
   title: 'Sublect list',
   description: 'Sublect list',
 }
 
-export default async function DashboardSubject() {
+export default async function DashboardSubject({
+  searchParams,
+}: {
+  searchParams: Promise<{
+    page?: string
+    search?: string
+  }>
+}) {
   //
-  const PAGE = 1
+  const { page } = await searchParams
+  const PAGE = page ? +page : 1
+
   const resSubjects = await getSubjects(PAGE)
   const totalCount = resSubjects.totalCount
   const subjects = resSubjects.payload
 
   //
-
   return (
     <Main
       title={`Subject List ${totalCount && `(${totalCount})`}`}
@@ -30,10 +40,21 @@ export default async function DashboardSubject() {
       ]}
     >
       <div>
+        {/** Table */}
         <div className="container container--custom ">
-          {/** Table */}
           <SubjectTable subjects={subjects} />
         </div>
+
+        {/** Pagination */}
+        {totalCount && (
+          <div className="container container--custom ">
+            <Pagination
+              totalCount={totalCount}
+              currentPage={PAGE}
+              perPage={PAGINATION_PER_PAGE}
+            />
+          </div>
+        )}
       </div>
     </Main>
   )

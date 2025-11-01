@@ -72,7 +72,7 @@ export default function FormSubject({
     >
       <div className="flex flex-col gap-5">
         {/*  */}
-        <div className=" mb-10 w-full flex flex-col gap-y-4">
+        <div className=" w-full flex flex-col gap-y-4">
           <div className="flex flex-col md:flex-row gap-5">
             {/* Subject Name */}
             <div className="form-control flex-1">
@@ -84,7 +84,7 @@ export default function FormSubject({
                   name="name"
                   placeholder="General Biology 1"
                   defaultValue={state?.input?.name ?? s?.name}
-                  className={`!w-full ${
+                  className={`w-full! ${
                     state.errors?.name ? 'has-errors' : ''
                   }`}
                   disabled={isPending}
@@ -106,7 +106,7 @@ export default function FormSubject({
                   name="code"
                   placeholder="BIO101"
                   defaultValue={state?.input?.code ?? s?.code}
-                  className={`!w-full ${
+                  className={`w-full! ${
                     state.errors?.name ? 'has-errors' : ''
                   }`}
                   disabled={isPending}
@@ -147,7 +147,7 @@ export default function FormSubject({
                   id="category"
                   name="category"
                   defaultValue={state?.input?.category ?? s?.category ?? ''}
-                  className={`!w-full ${
+                  className={`w-full! ${
                     state.errors?.category ? 'has-errors' : ''
                   }`}
                   disabled={isPending}
@@ -174,7 +174,7 @@ export default function FormSubject({
                   id="area"
                   name="area"
                   defaultValue={state?.input?.area ?? s?.area ?? ''}
-                  className={`!w-full ${
+                  className={`w-full! ${
                     state.errors?.area ? 'has-errors' : ''
                   }`}
                   disabled={isPending}
@@ -204,7 +204,7 @@ export default function FormSubject({
                   id="level"
                   name="level"
                   defaultValue={state?.input?.level ?? s?.level ?? ''}
-                  className={`!w-full ${
+                  className={`w-full! ${
                     state.errors?.level ? 'has-errors' : ''
                   }`}
                   disabled={isPending}
@@ -231,7 +231,7 @@ export default function FormSubject({
                   id="difficulty"
                   name="difficulty"
                   defaultValue={state?.input?.difficulty ?? s?.difficulty ?? ''}
-                  className={`!w-full ${
+                  className={`w-full! ${
                     state.errors?.difficulty ? 'has-errors' : ''
                   }`}
                   disabled={isPending}

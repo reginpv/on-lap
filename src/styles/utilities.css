@@ -45,7 +45,7 @@
       @apply bg-yellow-500 hover:bg-yellow-600;
     }
     &.button--info {
-      @apply bg-blue-500 hover:bg-blue-600;
+      @apply bg-blue-500 hover:bg-blue-600 text-white;
     }
   }
 

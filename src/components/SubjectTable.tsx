@@ -8,6 +8,7 @@ import Link from 'next/link'
 import Modal from '@/components/ui/Modal'
 import { deleteSubject } from '@/lib/actions/subject'
 import toast, { Toaster } from 'react-hot-toast'
+import { SUBJECT_AREAS } from '@/config/subject'
 
 export default function SubjectTable({ subjects }: { subjects: Subject[] }) {
   // State
@@ -51,7 +52,8 @@ export default function SubjectTable({ subjects }: { subjects: Subject[] }) {
             level: subject.level.toLowerCase(),
             difficulty: subject.difficulty.toLowerCase(),
             category: subject.category.toLowerCase(),
-            area: subject.area.toLowerCase(),
+            area: SUBJECT_AREAS.find((area) => area.value === subject.area)
+              ?.label,
             action: (
               <SubjectAction
                 subject={subject}
@@ -146,7 +148,7 @@ function SubjectAction({
       {/* Edit */}
       <Link
         href={`/dashboard/subject/${subject.id}/edit`}
-        className="button button--circle"
+        className="button button--circle hover:bg-secondary"
       >
         <Edit className="w-5 h-5" />
       </Link>
@@ -156,7 +158,7 @@ function SubjectAction({
           setShowModal(true)
           setSelectedSubject(subject)
         }}
-        className="button button--circle"
+        className="button button--circle hover:bg-secondary"
       >
         <Trash2 className="w-5 h-5" />
       </button>

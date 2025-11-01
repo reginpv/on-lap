@@ -13,7 +13,7 @@ export const DEFAULT_DATE_FORMAT = 'MMM dd, yyyy'
 export const SCHOOL_NAME = 'On-lap'
 
 //
-export const PAGINATION_PER_PAGE = 10
+export const PAGINATION_PER_PAGE = 5
 
 // SMTP
 export const SMTP_FROM_NAME = 'On-lap'

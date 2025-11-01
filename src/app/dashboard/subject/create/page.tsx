@@ -21,7 +21,7 @@ export default async function DashboardSubjectCreatePage() {
       ]}
     >
       <div className="flex flex-col gap-5">
-        <FormSubject className="" />
+        <FormSubject className="bg-light rounded-xl" />
       </div>
     </Main>
   )
