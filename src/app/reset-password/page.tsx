@@ -17,7 +17,25 @@ export default async function ResetPassword({
   // Public only
   const session = await getServerSession(authOptions)
   if (session) {
-    redirect('/dashboard')
+    const role = session.user.role
+
+    //
+    if (['SUPERADMIN', 'ADMIN'].includes(role)) {
+      redirect('/admin/dashboard')
+    }
+
+    //
+    if (['TEACHER'].includes(role)) {
+      redirect('/teacher/dashboard')
+    }
+
+    //
+    if (['STUDENT'].includes(role)) {
+      redirect('/student/dashboard')
+    }
+
+    //
+    redirect(`/user`)
   }
 
   // Check if token is valid

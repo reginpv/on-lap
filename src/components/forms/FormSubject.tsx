@@ -11,6 +11,7 @@ import {
   SUBJECT_DIFFICULTIES,
 } from '@/config/subject'
 import { useRouter } from 'next/navigation'
+import { useSession } from 'next-auth/react'
 
 export default function FormSubject({
   s,
@@ -29,6 +30,7 @@ export default function FormSubject({
   }
 
   // Hooks
+  const session = useSession()
   const { push: redirect } = useRouter()
 
   // Ref
@@ -49,7 +51,17 @@ export default function FormSubject({
       formRef.current?.reset()
       // Wait 1000
       setTimeout(() => {
-        redirect('/dashboard/subject')
+        const role = session?.data?.user?.role
+        const path = ['SUPERADMIN', 'ADMIN'].includes(role)
+          ? '/admin'
+          : ['TEACHER'].includes(role)
+          ? '/teacher'
+          : ['STUDENT'].includes(role)
+          ? '/student'
+          : '/user' // TODO: <-- fix this
+
+        // Redirect
+        redirect(`${path}/dashboard/subject`)
       }, 1000)
     } else {
       // Update fields to make sticky form

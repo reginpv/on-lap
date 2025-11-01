@@ -8,5 +8,5 @@ export const metadata: Metadata = {
 }
 
 export default function BlankLayout({ children }: { children: ReactNode }) {
-  return <TemplateDashboard>{children}</TemplateDashboard>
+  return <TemplateDashboard role="ADMIN">{children}</TemplateDashboard>
 }

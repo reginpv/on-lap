@@ -7,6 +7,8 @@ import Pagination from '@/components/ui/Pagination'
 import { PAGINATION_PER_PAGE } from '@/config/constants'
 import FormSearch from '@/components/forms/FormSearch'
 import Link from 'next/link'
+import { getServerSession } from 'next-auth'
+import { authOptions } from '@/lib/authOptions'
 
 export const metadata: Metadata = {
   title: 'Sublect list',
@@ -21,6 +23,17 @@ export default async function DashboardSubject({
     search?: string
   }>
 }) {
+  // session
+  const session = await getServerSession(authOptions)
+  const role = session.user.role
+  const path = ['SUPERADMIN', 'ADMIN'].includes(role)
+    ? '/admin'
+    : ['TEACHER'].includes(role)
+    ? '/teacher'
+    : ['STUDENT'].includes(role)
+    ? '/student'
+    : '/user' // TODO: <-- fix this
+
   //
   const { page, search } = await searchParams
   const PAGE = page ? +page : 1
@@ -36,7 +49,7 @@ export default async function DashboardSubject({
       actions={[
         {
           label: `Create Subject`,
-          href: '/dashboard/subject/create',
+          href: '/admin/dashboard/subject/create',
           icon: Plus,
         },
       ]}
@@ -49,12 +62,12 @@ export default async function DashboardSubject({
             <div className="pl-1">
               {totalCount ? totalCount : 0} search results for{' '}
               <strong>{search}</strong>.{' '}
-              <Link href="/dashboard/subject" className="underline">
+              <Link href="/admin/dashboard/subject" className="underline">
                 Clear search results.
               </Link>
             </div>
           )}
-          <SubjectTable subjects={subjects} />
+          <SubjectTable path={path} subjects={subjects} />
         </div>
 
         {/** Pagination */}

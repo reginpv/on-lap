@@ -52,6 +52,8 @@ export default function FormLogin({ className }: { className?: string }) {
         redirect: false,
       })
 
+      console.log(res)
+
       if (res?.ok === true) {
         setState({
           message: 'Logged in successfully!',

@@ -10,14 +10,34 @@ export async function middleware(req: NextRequest) {
     req,
     secret: process.env.NEXTAUTH_SECRET,
   })
+
+  console.log('token: ', token)
   const { pathname } = req.nextUrl
 
-  if (pathname.startsWith('/dashboard') && !token) {
+  if (
+    (pathname.startsWith('/admin') && !token) ||
+    (pathname.startsWith('/teacher') && !token) ||
+    (pathname.startsWith('/student') && !token)
+  ) {
     return NextResponse.redirect(new URL('/login', req.url))
   }
 
   if (pathname.startsWith('/login') && token) {
-    return NextResponse.redirect(new URL('/dashboard', req.url))
+    // Admins
+    if (['SUPERADMIN', 'ADMIN'].includes(token.role)) {
+      return NextResponse.redirect(new URL('/admin/dashboard', req.url))
+    }
+
+    // Teachers
+    if (['TEACHER'].includes(token.role)) {
+      return NextResponse.redirect(new URL('/teacher/dashboard', req.url))
+    }
+
+    // STudents
+    if (['STUDENT'].includes(token.role)) {
+      return NextResponse.redirect(new URL('/student/dashboard', req.url))
+    }
+    return NextResponse.redirect(new URL('/user', req.url))
   }
 
   return NextResponse.next()
@@ -25,7 +45,9 @@ export async function middleware(req: NextRequest) {
 
 export const config = {
   matcher: [
-    '/dashboard/:path*',
+    '/admin/:path*',
+    '/teacher/:path*',
+    '/student/:path*',
     '/app/:path*', // Add api routes here?
   ],
 }

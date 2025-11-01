@@ -1,24 +1,24 @@
 import { LayoutDashboard, UsersRound, NotebookPen, Book } from 'lucide-react'
 
-export const menuAside = [
+export const adminMenuAside = [
   {
     label: 'Dashboard',
-    href: '/dashboard',
+    href: '/admin/dashboard',
     icon: LayoutDashboard,
   },
   {
     label: 'My Class',
-    href: '/dashboard/class',
+    href: '/admin/dashboard/class',
     icon: UsersRound,
   },
   {
     label: 'Test Bank',
-    href: '/dashboard/test',
+    href: '/admin/dashboard/test',
     icon: NotebookPen,
   },
   {
     label: 'Subject',
-    href: '/dashboard/subject',
+    href: '/admin/dashboard/subject',
     icon: Book,
   },
 ]

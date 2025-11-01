@@ -10,7 +10,13 @@ import { deleteSubject } from '@/lib/actions/subject'
 import toast, { Toaster } from 'react-hot-toast'
 import { SUBJECT_AREAS } from '@/config/subject'
 
-export default function SubjectTable({ subjects }: { subjects: Subject[] }) {
+export default function SubjectTable({
+  path,
+  subjects,
+}: {
+  path: string
+  subjects: Subject[]
+}) {
   // State
   const [isLoading, setIsLoading] = useState(false)
   const [showModal, setShowModal] = useState(false)
@@ -56,6 +62,7 @@ export default function SubjectTable({ subjects }: { subjects: Subject[] }) {
               ?.label,
             action: (
               <SubjectAction
+                path={path}
                 subject={subject}
                 setShowModal={setShowModal}
                 setSelectedSubject={setSelectedSubject}
@@ -135,10 +142,12 @@ export default function SubjectTable({ subjects }: { subjects: Subject[] }) {
 }
 
 function SubjectAction({
+  path,
   subject,
   setShowModal,
   setSelectedSubject,
 }: {
+  path
   subject: Subject
   setShowModal: (showModal: boolean) => void
   setSelectedSubject: (subject: Subject) => void
@@ -147,7 +156,7 @@ function SubjectAction({
     <div className="flex space-x-4 justify-end ">
       {/* Edit */}
       <Link
-        href={`/dashboard/subject/${subject.id}/edit`}
+        href={`${path}/dashboard/subject/${subject.id}/edit`}
         className="button button--circle hover:bg-secondary"
       >
         <Edit className="w-5 h-5" />

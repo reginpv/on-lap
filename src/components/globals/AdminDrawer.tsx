@@ -5,7 +5,7 @@ import { useDrawer } from '@/store/useDrawer'
 import Link from 'next/link'
 import Logo from '@/components/globals/Logo'
 import { X, LayoutDashboard } from 'lucide-react'
-import { menuAside } from '@/config/menu'
+import { adminMenuAside } from '@/config/menu'
 
 export default function Drawer() {
   // Refs
@@ -42,7 +42,7 @@ export default function Drawer() {
       className={`${
         open
           ? 'w-64 z-10 opacity-100 border-r border-border'
-          : 'w-0 -z-0 opacity-0'
+          : 'w-0 z-0 opacity-0'
       } fixed top-0 left-0 h-dvh max-w-64 animated overflow-hidden bg-secondary`}
     >
       {/* Header */}
@@ -62,7 +62,7 @@ export default function Drawer() {
       <div className="p-5">
         <div>
           <ul className="flex flex-col gap-5">
-            {menuAside.map(
+            {adminMenuAside.map(
               (item: { label: string; href: string; icon: any }, i: number) => (
                 <li key={i}>
                   <Link

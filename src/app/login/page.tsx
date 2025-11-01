@@ -8,22 +8,41 @@ import Logo from '@/components/globals/Logo'
 export default async function Login() {
   // Public only
   const session = await getServerSession(authOptions)
+
   if (session) {
-    redirect('/dashboard')
+    const role = session.user.role
+
+    //
+    if (['SUPERADMIN', 'ADMIN'].includes(role)) {
+      redirect('/admin/dashboard')
+    }
+
+    //
+    if (['TEACHER'].includes(role)) {
+      redirect('/teacher/dashboard')
+    }
+
+    //
+    if (['STUDENT'].includes(role)) {
+      redirect('/student/dashboard')
+    }
+
+    //
+    redirect(`/user`)
   }
 
   return (
     <section className="h-dvh">
       <div className="h-full">
         <div className="flex flex-col md:flex-row h-full">
-          <div className="bg-primary flex-1 p-5 flex flex-col gap-5 items-center justify-center">
+          <div className="bg-primary flex-1 p-5 flex flex-col gap-5 items-center justify-center w-full">
             <div>
               <Logo />
             </div>
             <h1>Login</h1>
 
-            <div>
-              <FormLogin className="w-full max-w-80" />
+            <div className="w-full">
+              <FormLogin className="w-full max-w-80 mx-auto" />
             </div>
 
             <div className="mt-7 flex flex-col gap-3 text-center">
@@ -32,7 +51,7 @@ export default async function Login() {
               <Link href="/forgot-password">Forgot password</Link>
             </div>
           </div>
-          <div className="flex-1 bg-secondary p-5 flex items-center justify-center">
+          <div className="hidden flex-1 bg-secondary p-5 md:flex items-center justify-center">
             <div className="max-w-sm">
               Lorem Ipsum is simply dummy text of the printing and typesetting
               industry.

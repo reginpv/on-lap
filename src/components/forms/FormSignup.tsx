@@ -44,7 +44,7 @@ export default function FormSignup({ className }: { className?: string }) {
       ref={formRef}
       action={handleSubmit}
       noValidate
-      className={`flex flex-col gap-5 ${className}`}
+      className={`flex flex-col gap-5 w-full ${className}`}
     >
       <div className="form-control">
         <label>Full name</label>
@@ -88,7 +88,7 @@ export default function FormSignup({ className }: { className?: string }) {
       </div>
 
       {/** Group radio button */}
-      <div className="form-control flex gap-1">
+      <div className="flex gap-1">
         {[
           {
             label: 'student',

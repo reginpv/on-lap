@@ -42,7 +42,7 @@ export default async function DashboardSubjectEditPage({
       ]}
     >
       <div className="flex flex-col gap-5">
-        <FormSubject s={subject} className="" />
+        <FormSubject s={subject} className="bg-light rounded-xl" />
       </div>
     </Main>
   )

@@ -2,11 +2,11 @@
 
 import LogoAside from '@/components/globals/LogoAside'
 import { useAside } from '@/store/useAside'
-import { menuAside } from '@/config/menu'
+import { adminMenuAside } from '@/config/menu'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
-export default function Aside() {
+export default function AdminAside() {
   // Hooks
   const pathname = usePathname()
 
@@ -25,7 +25,7 @@ export default function Aside() {
       <div className="px-5 py-3">
         <div>
           <ul className="flex flex-col gap-2">
-            {menuAside.map(
+            {adminMenuAside.map(
               (item: { label: string; href: string; icon: any }, i: number) => (
                 <li key={i}>
                   <Link

@@ -9,21 +9,39 @@ export default async function Signup() {
   // Public only
   const session = await getServerSession(authOptions)
   if (session) {
-    redirect('/dashboard')
+    const role = session.user.role
+
+    //
+    if (['SUPERADMIN', 'ADMIN'].includes(role)) {
+      redirect('/admin/dashboard')
+    }
+
+    //
+    if (['TEACHER'].includes(role)) {
+      redirect('/teacher/dashboard')
+    }
+
+    //
+    if (['STUDENT'].includes(role)) {
+      redirect('/student/dashboard')
+    }
+
+    //
+    redirect(`/user`)
   }
   return (
     <section className="h-dvh">
       <div className="h-full">
         <div className="flex flex-col md:flex-row h-full">
           {/** Left side */}
-          <div className="bg-primary flex-1 p-5 flex flex-col gap-5 items-center justify-center">
+          <div className="bg-primary flex-1 p-5 flex flex-col gap-5 items-center justify-center w-full">
             <div>
               <Logo />
             </div>
             <h1>Signup</h1>
 
-            <div>
-              <FormSignup className="w-full max-w-80" />
+            <div className="w-full">
+              <FormSignup className="w-full sm:max-w-80 mx-auto" />
             </div>
 
             <div className="mt-7 flex flex-col gap-3 text-center">
@@ -39,7 +57,7 @@ export default async function Signup() {
             </div>
           </div>
           {/** Right side */}
-          <div className="flex-1 bg-secondary p-5 flex items-center justify-center">
+          <div className="flex-1 bg-secondary p-5 hidden md:flex items-center justify-center">
             <div className="max-w-sm">
               Lorem Ipsum is simply dummy text of the printing and typesetting
               industry.

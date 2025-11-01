@@ -15,7 +15,7 @@ export default async function DashboardSubjectCreatePage() {
       actions={[
         {
           label: 'Back',
-          href: '/dashboard/subject',
+          href: '/admin/dashboard/subject',
           icon: ChevronLeft,
         },
       ]}
